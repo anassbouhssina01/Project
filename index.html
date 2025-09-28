@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocGen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pizzip@3.2.0/dist/pizzip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.29.0/docxtemplater.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DocGen</h1>
+        </header>
+
+        <main>
+            <div class="section">
+                <h2><span class="icon">📂</span>Gestion des données</h2>
+                <div class="controls">
+                    <button id="toggle-json-upload" class="control-btn">Mettre à jour des données</button>
+                    <button id="toggle-excel-upload" class="control-btn">Upload Excel</button>
+                </div>
+                <div id="json-upload-container" class="hidden upload-container">
+                    <p>الرجاء تحميل ملف JSON الذي يحتوي على بيانات الموظفين.</p>
+                    <input type="file" id="json-upload" accept=".json">
+                </div>
+                <div id="excel-upload-container" class="hidden upload-container">
+                    <p> ملء لائحة المعنيين عن طريق استيراد ملف Excel.</p>
+                    <input type="file" id="excel-upload" accept=".xlsx, .xls">
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🔍</span> البحث عن القضاة</h2>
+                <p>ابحث بالاسم، الرقم الوظيفي، أو المدينة.</p>
+                <div class="search-filters">
+                    <input type="text" id="search-input" placeholder="ابحث بالاسم أو الرقم الوظيفي...">
+                    <input type="text" id="search-city" placeholder="ابحث بالمدينة (للمسؤولين فقط)...">
+                </div>
+                <div id="search-results"></div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">👥</span> لائحة المعنيين</h2>
+                <p>لائحة المعنيين. يمكنك حذف أي شخص من القائمة.</p>
+                <button id="clear-all-btn" class="control-btn" style="background-color: var(--danger-color); margin-bottom: 15px;">حذف الكل</button>
+                <div id="invited-list"></div>
+            </div>
+            
+            <div class="section">
+                <h2><span class="icon">📄</span>Générer un document Word</h2>
+                <p>اختر نموذج بصيغة Word (.docx).</p>
+                <input type="file" id="word-template-upload" accept=".docx">
+                <!-- <p>بعد رفع القالب وإعداد لائحة المدعوين، انقر على الزر لتوليد المستند.</p> -->
+                <button id="generate-word">Exporter Word</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
