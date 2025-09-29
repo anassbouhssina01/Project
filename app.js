@@ -111,11 +111,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const filteredEmployees = employeeData.filter(emp => {
             const empName = (emp.fullName || '').toLowerCase();
+            const empNameFr = (emp.fullNameFr || '').toLowerCase();
             const empId = (emp.employeeId || '').toString();
             const empCity = (emp.city || '').toLowerCase();
             const postResponsibility = (emp.postResponsibility || '').trim();
 
-            const nameMatch = searchTerm ? (empName.includes(searchTerm) || empId.includes(searchTerm)) : true;
+            const nameMatch = searchTerm ? (empName.includes(searchTerm) || empNameFr.includes(searchTerm) || empId.includes(searchTerm)) : true;
             const cityMatch = cityTerm ? empCity.includes(cityTerm) : true;
 
             // Special filter for "responsible" people if searching by city.
@@ -143,15 +144,20 @@ document.addEventListener('DOMContentLoaded', () => {
             empDiv.className = 'employee-item';
             empDiv.innerHTML = `
                 <div class="employee-info">
-                    <span>${emp.fullName} (الرقم: ${emp.employeeId})</span>
-                    <span class="details">${emp.workLocation} | ${emp.city} | ${emp.division}</span>
+                    <span>${emp.fullNameAr || emp.fullName} (الرقم: ${emp.employeeId})</span>
+                    <span class="details"><strong>الدرجة:</strong> ${emp.grad || 'N/A'} | <strong>RIB:</strong> ${emp.rib || 'N/A'}</span>
+                    <span class="details">${emp.workLocation || ''} | ${emp.city || ''} | ${emp.division || ''}</span>
                 </div>
+                <button class="add-btn" data-employee-id="${emp.employeeId}">أضف</button>
             `;
-            empDiv.dataset.employeeId = emp.employeeId;
             
-            empDiv.addEventListener('click', () => {
-                addToInvitedList(emp.employeeId);
-            });
+            const addButton = empDiv.querySelector('.add-btn');
+            if (addButton) {
+                addButton.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent any other click events
+                    addToInvitedList(emp.employeeId);
+                });
+            }
 
             searchResults.appendChild(empDiv);
         });
